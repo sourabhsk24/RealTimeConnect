@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | RealTimeConnect</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #070b14;
+            --border: rgba(255, 255, 255, 0.08);
+
+            --text: #f5f7fb;
+            --muted: #8994a8;
+
+            --primary: #6366f1;
+            --cyan: #22d3ee;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(99, 102, 241, 0.16),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(34, 211, 238, 0.10),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            overflow-y: auto;
+        }
+
+
+        /* Background glow */
+
+        .glow {
+            position: fixed;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            filter: blur(100px);
+
+            opacity: 0.15;
+
+            pointer-events: none;
+        }
+
+        .glow-one {
+            top: -150px;
+            left: -100px;
+
+            background: #6366f1;
+        }
+
+        .glow-two {
+            right: -120px;
+            bottom: -150px;
+
+            background: #22d3ee;
+        }
+
+
+        /* Card */
+
+        .auth-card {
+            width: 100%;
+            max-width: 430px;
+
+            margin: 20px 0;
+
+            padding: 40px;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(18, 27, 45, 0.94),
+                    rgba(9, 14, 25, 0.94)
+                );
+
+            border:
+                1px solid var(--border);
+
+            box-shadow:
+                0 30px 90px rgba(0, 0, 0, 0.45);
+
+            backdrop-filter: blur(20px);
+
+            position: relative;
+            z-index: 2;
+        }
+
+
+        /* Brand */
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 10px;
+
+            margin-bottom: 30px;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--cyan)
+                );
+
+            box-shadow:
+                0 8px 28px rgba(99, 102, 241, 0.30);
+        }
+
+        .brand-accent {
+            color: #818cf8;
+        }
+
+
+        /* Heading */
+
+        .heading {
+            text-align: center;
+
+            margin-bottom: 25px;
+        }
+
+        .heading h1 {
+            font-size: 29px;
+
+            letter-spacing: -1px;
+
+            margin-bottom: 8px;
+        }
+
+        .heading p {
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+
+        /* Error */
+
+        .error-message {
+            padding: 11px 13px;
+
+            margin-bottom: 17px;
+
+            border-radius: 10px;
+
+            background:
+                rgba(239, 68, 68, 0.08);
+
+            border:
+                1px solid rgba(239, 68, 68, 0.18);
+
+            color: #fca5a5;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* Form */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #cbd5e1;
+
+            font-size: 11px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.7px;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            height: 47px;
+
+            padding: 0 14px;
+
+            border-radius: 11px;
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            background:
+                rgba(3, 7, 18, 0.7);
+
+            color: white;
+
+            outline: none;
+
+            font-size: 13px;
+
+            transition: 0.25s ease;
+        }
+
+        .form-group input::placeholder {
+            color: #566176;
+        }
+
+        .form-group input:focus {
+            border-color:
+                rgba(129, 140, 248, 0.55);
+
+            box-shadow:
+                0 0 0 3px rgba(99, 102, 241, 0.09);
+        }
+
+
+        /* Register button */
+
+        .register-button {
+            width: 100%;
+
+            height: 50px;
+
+            margin-top: 6px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #4f46e5
+                );
+
+            color: white;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 30px rgba(99, 102, 241, 0.24);
+
+            transition: 0.25s ease;
+        }
+
+        .register-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 14px 35px rgba(99, 102, 241, 0.38);
+        }
+
+        .register-button:active {
+            transform: translateY(0);
+        }
+
+
+        /* Login link */
+
+        .login-text {
+            margin-top: 21px;
+
+            text-align: center;
+
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        .login-text a {
+            color: #818cf8;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            color: #a5b4fc;
+        }
+
+
+        /* Security */
+
+        .security {
+            display: flex;
+
+            justify-content: center;
+            align-items: center;
+
+            gap: 6px;
+
+            margin-top: 23px;
+
+            color: #566176;
+
+            font-size: 10px;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 15px;
+            }
+
+            .auth-card {
+                padding: 30px 22px;
+
+                border-radius: 20px;
+            }
+
+            .heading h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+
+    <main class="auth-card">
+
+
+        <!-- Brand -->
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                ◉
+            </div>
+
+            <span>
+                RealTime<span class="brand-accent">Connect</span>
+            </span>
+
+        </div>
+
+
+        <!-- Heading -->
+
+        <div class="heading">
+
+            <h1>
+                Create your account
+            </h1>
+
+            <p>
+                Join RealTimeConnect and start collaborating
+            </p>
+
+        </div>
+
+
+        {% if error %}
+
+            <div class="error-message">
+                {{ error }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- Registration form -->
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="form-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Choose a username"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirm_password">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Confirm your password"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-button">
+
+                Create Account →
+
+            </button>
+
+        </form>
+
+
+        <p class="login-text">
+
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+                Sign in
+            </a>
+
+        </p>
+
+
+        <div class="security">
+            🔒 Secure account creation
+        </div>
+
+
+    </main>
+
+</body>
+
+</html>

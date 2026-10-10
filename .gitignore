@@ -1,0 +1,23 @@
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Secrets and environment files
+.env
+.env.*
+
+# Node.js
+node_modules/
+
+# Logs and temporary tunnel files
+*.log
+signaling_url.txt
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

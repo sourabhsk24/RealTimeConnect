@@ -1,0 +1,242 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | RealTimeChat</title>
+
+    <link rel="stylesheet" href="{% static 'chat/style.css' %}">
+</head>
+
+<body>
+
+    <!-- Background decoration -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+
+        <div class="brand">
+            <div class="brand-icon">◉</div>
+            <span>RealTime<span class="brand-accent">Connect</span></span>
+        </div>
+
+        <div class="nav-right">
+            <div class="user-badge">
+                <div class="user-avatar">
+                    {{ request.user.username|first|upper }}
+                </div>
+
+                <div class="user-info">
+                    <span class="user-label">Signed in as</span>
+                    <strong>{{ request.user.username }}</strong>
+                </div>
+            </div>
+
+            <a href="{% url 'logout' %}" class="logout-btn">
+                Logout
+            </a>
+        </div>
+
+    </nav>
+
+
+    <!-- Main content -->
+    <main class="dashboard">
+
+        <!-- Hero section -->
+        <section class="hero-section">
+
+            <div class="hero-text">
+
+                <div class="status-pill">
+                    <span class="status-dot"></span>
+                    System Online
+                </div>
+
+                <h1>
+                    Welcome back,
+                    <span>{{ request.user.username }}</span> 👋
+                </h1>
+
+                <p>
+                    Connect, collaborate and communicate in real time.
+                    Start a meeting or join one of your available rooms.
+                </p>
+
+            </div>
+
+            <div class="hero-visual">
+                <div class="orb orb-one"></div>
+                <div class="orb orb-two"></div>
+
+                <div class="hero-icon">
+                    🎥
+                </div>
+
+                <div class="connection-line line-one"></div>
+                <div class="connection-line line-two"></div>
+                <div class="connection-line line-three"></div>
+            </div>
+
+        </section>
+
+
+        <!-- Create meeting -->
+        <section class="create-card">
+
+            <div class="create-icon">
+                +
+            </div>
+
+            <div class="create-content">
+                <h2>Create a new meeting</h2>
+
+                <p>
+                    Start a private meeting room and invite others to join.
+                </p>
+            </div>
+
+            <form method="POST" action="{% url 'create_room' %}" class="create-form">
+
+                {% csrf_token %}
+
+                <input
+                    type="text"
+                    name="room_name"
+                    placeholder="Enter meeting room name..."
+                    required
+                    autocomplete="off"
+                >
+
+                <button type="submit">
+                    <span>Start Meeting</span>
+                    <span class="button-arrow">→</span>
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- Rooms header -->
+        <section class="rooms-section">
+
+            <div class="section-header">
+
+                <div>
+                    <span class="section-label">MEETINGS</span>
+                    <h2>Your Meeting Rooms</h2>
+                </div>
+
+                <div class="room-count">
+                    <span>{{ rooms|length }}</span>
+                    room{{ rooms|length|pluralize }}
+                </div>
+
+            </div>
+
+
+            <!-- Room cards -->
+            {% if rooms %}
+
+                <div class="rooms-grid">
+
+                    {% for room in rooms %}
+
+                        <article class="room-card">
+
+                            <div class="room-card-top">
+
+                                <div class="room-icon">
+                                    🎥
+                                </div>
+
+                                <span class="live-badge">
+                                    <span></span>
+                                    Ready
+                                </span>
+
+                            </div>
+
+
+                            <div class="room-card-content">
+
+                                <h3>{{ room.name }}</h3>
+
+                                <p class="host-info">
+                                    <span class="mini-avatar">
+                                        {{ room.host.username|first|upper }}
+                                    </span>
+
+                                    Hosted by
+                                    <strong>{{ room.host.username }}</strong>
+                                </p>
+
+                            </div>
+
+
+                            <div class="room-card-footer">
+
+                                <span class="room-date">
+                                    Meeting Room
+                                </span>
+
+                                <a
+                                    href="{% url 'room' room.name %}"
+                                    class="join-btn"
+                                >
+                                    Join
+                                    <span>→</span>
+                                </a>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <!-- Empty state -->
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        🎥
+                    </div>
+
+                    <h3>No meeting rooms yet</h3>
+
+                    <p>
+                        Create your first meeting room above and start
+                        connecting with your team.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer class="footer">
+
+        <span>RealTimeConnect</span>
+
+        <span>•</span>
+
+        <span>Real-time communication platform</span>
+
+    </footer>
+
+</body>
+</html>
